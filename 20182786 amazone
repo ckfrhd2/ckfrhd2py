@@ -15,8 +15,7 @@ import urllib.request
 import urllib
 
 
-# 학습목표 1 : 사용자에게 다양한 메뉴를 보여 준 후 카테고리값을 입력 받아 해당 카테고리 메뉴를 실행한다.
-# Step 2. 사용자에게 카테고리 메뉴를 보여주고 정보를 입력 받습니다.
+
 print("=" *80)
 print("     아마존 닷컴의 분야별 Best Seller 상품 정보 추출하기")
 print("=" *80)
@@ -135,7 +134,7 @@ if cnt > 30 :
 else :
       print("    요청하신 데이터를 수집하고 있으니 잠시만 기다려 주세요~~")
       
-# Step 3. 저장될 파일위치와 이름을 지정 한 후 크롬 드라이버를 실행하여 페이지를 엽니다
+
 now = time.localtime()
 s = '%04d-%02d-%02d-%02d-%02d-%02d' % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
 
@@ -155,7 +154,7 @@ driver = webdriver.Chrome(path)
 driver.get(query_url)
 time.sleep(5)
 
-# 분야별 더보기 버튼을 눌러 페이지를 엽니다
+
 if sec == '1' :
       driver.find_element_by_xpath("""//*[@id="zg_browseRoot"]/ul/li[1]/a""").click( )
 elif sec == '2' :                    
@@ -241,7 +240,7 @@ elif sec == '41' :
 
 time.sleep(1)
 
-# 학습목표 2 : 해당 카테고리의 데이터를 수집합니다.
+
 #Step 4. 화면을 스크롤해서 아래로 이동한 후 요청된 데이터를 수집합니다.
 
 def scroll_down(driver):
@@ -251,10 +250,10 @@ def scroll_down(driver):
 
 scroll_down(driver)
 
-# 비트맵 이미지 아이콘을 위한 대체 딕셔너리를 만듭니다
+
 bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
 
-# 이미지 추출 코드 추가
+
 img_src2=[]   # 이미지 URL 저장변수
 file_no = 0
 
@@ -276,14 +275,14 @@ if cnt < 51 :
        
     count = 0
     
-    # 이미지 저장용 폴더 생성하기
+    
     img_dir = ff_dir+"\\images"
     os.makedirs(img_dir)
     os.chdir(img_dir)
 
     for li in slist:
             
-            # 이미지 저장하기
+           
             try :
               photo = li.find('div','a-section a-spacing-small').find('img')['src']
             except AttributeError :
@@ -299,7 +298,7 @@ if cnt < 51 :
             f = open(ff_name, 'a',encoding='UTF-8')
             f.write("-----------------------------------------------------"+"\n")
 
-            # 판매순위
+        
             print("-" *70)
             try :
              ranking = li.find('span',class_='zg-badge-text').get_text().replace("#","")
@@ -311,7 +310,7 @@ if cnt < 51 :
 
              f.write('1.판매순위:'+ ranking + "\n")
 
-            #제품 설명 
+         
             try :
              title1 = li.find('div',class_='p13n-sc-truncated').get_text().replace("\n","")
             except AttributeError :
@@ -326,7 +325,7 @@ if cnt < 51 :
              
              f.write('2.제품소개:'+ title2 + "\n")
             
-             # 가격
+            
              try :
                price = li.find('span','p13n-sc-price').get_text().replace("\n","")
              except AttributeError :
@@ -345,7 +344,7 @@ if cnt < 51 :
                 print('4.상품평 수:',sat_count)
                 f.write('4.상품평 수:'+ sat_count + "\n")
 
-            #상품 별점 구하기
+           
              try :
                score = li.find('span','a-icon-alt').get_text()
              except AttributeError :
@@ -388,7 +387,7 @@ elif cnt >= 51 :
     slist = reple_result[0].find_all('li')
 
 
-    # 이미지 내용 추출하기
+   
 
     img_dir = ff_dir+"\\images"
     os.makedirs(img_dir)
@@ -419,7 +418,7 @@ elif cnt >= 51 :
             f = open(ff_name, 'a',encoding='UTF-8')
             f.write("-----------------------------------------------------"+"\n")
 
-            # 판매순위
+           
             print("-" *70)
             try :
              ranking = li.find('span',class_='zg-badge-text').get_text().replace("#","")
@@ -431,7 +430,7 @@ elif cnt >= 51 :
 
              f.write('1.판매순위:'+ ranking + "\n")
 
-            #제품 설명 
+          
             try :
              title1 = li.find('div',class_='p13n-sc-truncated').get_text().replace("\n","")
             except AttributeError :
@@ -446,7 +445,7 @@ elif cnt >= 51 :
              
              f.write('2.제품소개:'+ title2 + "\n")
             
-             # 가격
+           
              try :
                price = li.find('span','p13n-sc-price').get_text().replace("\n","")
              except AttributeError :
@@ -465,7 +464,7 @@ elif cnt >= 51 :
                 print('4.상품평 수:',sat_count)
                 f.write('4.상품평 수:'+ sat_count + "\n")
 
-            #상품 별점 구하기
+            
              try :
                score = li.find('span','a-icon-alt').get_text()
              except AttributeError :
@@ -491,7 +490,7 @@ elif cnt >= 51 :
 
              score2.append(score)
 
-    # 1 페이지 정보 추출 후 2 페이지로 넘어가기
+    
     driver.find_element_by_xpath("""//*[@id="zg-center-div"]/div[2]/div/ul/li[3]/a""").click( )
     print("\n")
     print("요청하신 데이터의 수량이 많아 다음 페이지의 데이터를 추출 중이오니 잠시만 기다려 주세요~^^")
@@ -535,7 +534,7 @@ elif cnt >= 51 :
 
              f.write('1.판매순위:'+ ranking + "\n")
 
-            #제품 설명 
+            
             try :
              title1 = li.find('div',class_='p13n-sc-truncated').get_text().replace("\n","")
             except AttributeError :
@@ -550,7 +549,7 @@ elif cnt >= 51 :
              
              f.write('2.제품소개:'+ title2 + "\n")
             
-             # 가격
+            
              try :
                price = li.find('span','p13n-sc-price').get_text().replace("\n","")
              except AttributeError :
@@ -573,7 +572,7 @@ elif cnt >= 51 :
                 print('4.상품평 수:',sat_count)
                 f.write('4.상품평 수:'+ sat_count + "\n")
 
-            #상품 별점 구하기
+            
              try :
                score = li.find('span','a-icon-alt').get_text()
              except AttributeError :
@@ -605,7 +604,7 @@ else :
       print(" 검색 건수는 1건 - 최대 100 건까지만 가능합니다")
   
 
-#Step 5. 검색 결과를 다양한 형태로 저장하기
+
               
 amazon_best_seller = pd.DataFrame()
 amazon_best_seller['판매순위']=ranking2
@@ -615,26 +614,26 @@ amazon_best_seller['상품평 갯수']=pd.Series(sat_count2)
 amazon_best_seller['상품평점']=pd.Series(score2)
 
 
-# csv 형태로 저장하기
+
 amazon_best_seller.to_csv(fc_name,encoding="utf-8-sig",index=True)
 
-# 엑셀 형태로 저장하기
+
 amazon_best_seller.to_excel(fx_name ,index=True)
 
 e_time = time.time( )
 t_time = e_time - s_time
 
-# txt 파일에 크롤링 요약 정보 저장하기
+
 orig_stdout = sys.stdout
 f = open(ff_name, 'a',encoding='UTF-8')
 sys.stdout = f
 
 
-#이미지 삽입하기
+
 
 import win32com.client as win32   #pywin32 , pypiwin32 설치후 동작
-import win32api  #파이썬 프롬프트를 관리자 권한으로 실행해야 에러없음
-                     #파이썬 쉘을 관리자 권한으로 실행한 후 불러오기로 이 소스 실행하기
+import win32api 
+                     
 excel = win32.gencache.EnsureDispatch('Excel.Application')
 wb = excel.Workbooks.Open(fx_name)
 sheet = wb.ActiveSheet
@@ -660,7 +659,7 @@ for i in range(0,cnt) :
       excel.Visible=True
       excel.ActiveWorkbook.Save()
 
-# Step 6. 요약 정보를 출력하기
+
 print("\n")
 print("=" *50)
 print("총 소요시간은 %s 초 이며," %t_time)
